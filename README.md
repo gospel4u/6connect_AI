@@ -2,8 +2,9 @@
 ## 2021-2 AI 육목경진대회
 ### 권주은, 안성현, 이경준
 🖥 한동대학교 전산전자공학부 DS TA  
-🍊 팀명: 미정  
-🍐 목표: 우승  
+💎 팀명: 미정  
+⭐ 목표: 우승  
+
 ![육목](https://user-images.githubusercontent.com/61014494/125806176-bdc2ebbd-fcb3-4c43-acc3-04f8c3a70d2f.jpeg)
 
 ----------
