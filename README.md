@@ -4,7 +4,7 @@
 한동대학교 전산전자공학부 DS TA  
 팀명: 미정  
 목표: 우승  
+![육목](https://user-images.githubusercontent.com/61014494/125806176-bdc2ebbd-fcb3-4c43-acc3-04f8c3a70d2f.jpeg)
 
 ----------
 "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라"(빌립보서 4:13)
-![육목](https://user-images.githubusercontent.com/61014494/125806176-bdc2ebbd-fcb3-4c43-acc3-04f8c3a70d2f.jpeg)
