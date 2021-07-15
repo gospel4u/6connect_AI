@@ -1,1 +1,1 @@
-# 6connect_AI
+# connect6_AI
