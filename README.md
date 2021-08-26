@@ -9,3 +9,5 @@
 
 ----------
 "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라"(빌립보서 4:13)
+
+(출처: https://github.com/reinforcement-learning-kr/alpha_omok)
