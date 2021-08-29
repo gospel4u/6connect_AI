@@ -32,7 +32,7 @@ HALF_WINDOW_HEIGHT = int(WINDOW_HEIGHT / 2)
 # Colors (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (200, 72, 72)
+RED = (255, 0, 0)
 LIGHT_ORANGE = (198, 108, 58)
 ORANGE = (180, 122, 48)
 GREEN = (72, 160, 72)
@@ -115,16 +115,23 @@ class GameState:
             self.init = False
 
         # Key settings
-        mouse_pos = 0
+        mouse_pos_left = 0
+        mouse_pos_right = 0
+
         if np.all(input_) == 0 and self.gamemode == 'pygame':
             # If guide mode of O's turn
             for event in pygame.event.get():  # event loop
                 if event.type == QUIT:
                     self.terminate()
-
-                if pygame.mouse.get_pressed()[0]:
-                    mouse_pos = pygame.mouse.get_pos()
                 
+                # LEFT CLICK
+                if pygame.mouse.get_pressed()[0]:
+                    mouse_pos_left = pygame.mouse.get_pos()
+                
+                # RIGHT CLICK
+                if pygame.mouse.get_pressed()[2]:
+                   mouse_pos_right = pygame.mouse.get_pos()
+        
         # get action and put stone on the board
         check_valid_pos = False
         x_index = 100
@@ -133,11 +140,14 @@ class GameState:
         # action = np.reshape(input_, (GAMEBOARD_SIZE, GAMEBOARD_SIZE))
 
         action_index = 0
-        if mouse_pos != 0:
+
+        if mouse_pos_left != 0:
+            # Black stone turn
+            self.turn = 0
             for i in range(len(self.X_coord)):
                 for j in range(len(self.Y_coord)):
-                    if ((self.X_coord[i] - 15 < mouse_pos[0] < self.X_coord[i] + 15) and
-                            (self.Y_coord[j] - 15 < mouse_pos[1] < self.Y_coord[j] + 15)):
+                    if ((self.X_coord[i] - 15 < mouse_pos_left[0] < self.X_coord[i] + 15) and
+                            (self.Y_coord[j] - 15 < mouse_pos_left[1] < self.Y_coord[j] + 15)):
                         check_valid_pos = True
                         x_index = i
                         y_index = j
@@ -146,6 +156,23 @@ class GameState:
 
                         # If selected spot is already occupied, it is not valid move!
                         if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1:
+                            check_valid_pos = False
+
+        if mouse_pos_right != 0:
+            # Red stone turn
+            self.turn = -1
+            for i in range(len(self.X_coord)):
+                for j in range(len(self.Y_coord)):
+                    if ((self.X_coord[i] - 15 < mouse_pos_right[0] < self.X_coord[i] + 15) and
+                            (self.Y_coord[j] - 15 < mouse_pos_right[1] < self.Y_coord[j] + 15)):
+                        check_valid_pos = True
+                        x_index = i
+                        y_index = j
+
+                        action_index = y_index * GAMEBOARD_SIZE + x_index
+
+                        # If selected spot is already occupied, it is not valid move!
+                        if self.gameboard[y_index, x_index] == 5:
                             check_valid_pos = False
 
         # If self mode and MCTS works
@@ -163,12 +190,20 @@ class GameState:
         if np.any(input_) != 0:
             # update state
             # self.state = update_state(self.state, self.turn, x_index, y_index)
+
+            # Black stone
             if self.turn == 0:
                 self.gameboard[y_index, x_index] = 1
                 self.num_stones += 1
-            else:
+
+            # White stone
+            elif self.turn == 1:
                 self.gameboard[y_index, x_index] = -1
                 self.num_stones += 1
+
+            # Red stone
+            else:
+                self.gameboard[y_index, x_index] = 5
 
             # turn for connect6. Only change the turn when # of stones is odd.
             self.turn = (self.turn + (self.num_stones % 2)) % 2
@@ -232,6 +267,10 @@ class GameState:
 
                 if self.gameboard[i, j] == -1:
                     pygame.draw.circle(DISPLAYSURF, WHITE,
+                                       (self.X_coord[j], self.Y_coord[i]), 12, 0)
+
+                if self.gameboard[i, j] == 5:
+                    pygame.draw.circle(DISPLAYSURF, RED,
                                        (self.X_coord[j], self.Y_coord[i]), 12, 0)
 
     # Display title

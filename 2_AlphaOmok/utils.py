@@ -72,12 +72,17 @@ def render_str(board, board_size, action_index):
     if action_index is not None:
         row = action_index // board_size
         col = action_index % board_size
+
     count = np.count_nonzero(board)
+
     board_str = '\n  {}\n'.format(ALPHABET[:board_size * 2])
+
     for i in range(board_size):
         for j in range(board_size):
             if j == 0:
                 board_str += '{:2}'.format(i + 1)
+
+            # Blank board
             if board[i][j] == 0:
                 if count > 0:
                     if col + 1 < board_size:
@@ -89,6 +94,8 @@ def render_str(board, board_size, action_index):
                         board_str += ' .'
                 else:
                     board_str += ' .'
+
+            # Black stone
             if board[i][j] == 1:
                 if (i, j) == (row, col):
                     board_str += '(O)'
@@ -96,6 +103,8 @@ def render_str(board, board_size, action_index):
                     board_str += 'O'
                 else:
                     board_str += ' O'
+
+            # White stone
             if board[i][j] == -1:
                 if (i, j) == (row, col):
                     board_str += '(X)'
@@ -103,6 +112,8 @@ def render_str(board, board_size, action_index):
                     board_str += 'X'
                 else:
                     board_str += ' X'
+            
+            # Red stone
             if board[i][j] == 5:
                 if (i, j) == (row, col):
                     board_str += '(R)'
@@ -110,11 +121,14 @@ def render_str(board, board_size, action_index):
                     board_str += 'R'
                 else:
                     board_str += ' R'
+
             if j == board_size - 1:
                 board_str += ' \n'
+
         if i == board_size - 1:
             board_str += '  ' + '-' * (board_size - 6) + \
                 '  MOVE: {:2}  '.format(count) + '-' * (board_size - 6)
+
     print(board_str)
 
 
