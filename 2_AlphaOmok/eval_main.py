@@ -46,7 +46,7 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # ======================================================= #
 # example)
 
-player_model_path = 'puct'
+player_model_path = 'human'
 enemy_model_path = './data/180927_9400_297233_step_model.pickle'
 monitor_model_path = './data/180927_9400_297233_step_model.pickle'
 
