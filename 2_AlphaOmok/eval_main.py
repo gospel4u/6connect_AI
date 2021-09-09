@@ -46,7 +46,7 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # ======================================================= #
 # example)
 
-player_model_path = 'human'
+player_model_path = 'puct'
 enemy_model_path = './data/180927_9400_297233_step_model.pickle'
 monitor_model_path = './data/180927_9400_297233_step_model.pickle'
 
@@ -227,6 +227,7 @@ def main():
 
     for i in range(N_MATCH):
         board = np.zeros([BOARD_SIZE, BOARD_SIZE])
+        lock = np.zeros([BOARD_SIZE, BOARD_SIZE])
         root_id = (0,)
         win_index = 0
         action_index = None
@@ -241,7 +242,7 @@ def main():
         game_info.game_status = 0
 
         while win_index == 0:
-            utils.render_str(board, BOARD_SIZE, action_index)
+            utils.render_str(board, BOARD_SIZE, action_index, lock)
 
             p, v = evaluator.monitor.get_pv(root_id)
 
@@ -314,7 +315,7 @@ def main():
                         player_elo, enemy_elo = elo(
                             player_elo, enemy_elo, 0, 1)
 
-                utils.render_str(board, BOARD_SIZE, action_index)
+                utils.render_str(board, BOARD_SIZE, action_index, lock)
                 # Change turn
                 enemy_turn = abs(enemy_turn - 1)
                 turn = 0

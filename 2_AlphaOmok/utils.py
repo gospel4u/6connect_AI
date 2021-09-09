@@ -68,7 +68,7 @@ def check_win(board, win_mark):
     return 0
 
 
-def render_str(board, board_size, action_index):
+def render_str(board, board_size, action_index, lock):
     if action_index is not None:
         row = action_index // board_size
         col = action_index % board_size
@@ -113,14 +113,14 @@ def render_str(board, board_size, action_index):
                 else:
                     board_str += ' X'
             
-            # Red stone
-            if board[i][j] == 5:
-                if (i, j) == (row, col):
-                    board_str += '(R)'
-                elif (i, j) == (row, col + 1):
-                    board_str += 'R'
-                else:
-                    board_str += ' R'
+            # # Red stone
+            # if lock[i][j] == 1:
+            #     if (i, j) == (row, col):
+            #         board_str += '(R)'
+            #     elif (i, j) == (row, col + 1):
+            #         board_str += 'R'
+            #     else:
+            #         board_str += ' R'
 
             if j == board_size - 1:
                 board_str += ' \n'

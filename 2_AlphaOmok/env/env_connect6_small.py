@@ -82,6 +82,7 @@ class GameState:
         self.gameboard = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])
         # self.state = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE, INPUT_CHANNEL])
         # self.state[:, :, 16] = 1
+        self.lock = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])  ## 추가했음
 
         self.black_win = 0
         self.white_win = 0
@@ -108,7 +109,7 @@ class GameState:
 
             # No stone: 0, Black stone: 1, White stone = -1
             self.gameboard = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])
-
+            self.lock = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE]) ## 추가했음
             # black turn: 0, white turn: 1
             self.turn = 0
 
@@ -143,7 +144,7 @@ class GameState:
 
         if mouse_pos_left != 0:
             # Black stone turn
-            self.turn = 0
+            
             for i in range(len(self.X_coord)):
                 for j in range(len(self.Y_coord)):
                     if ((self.X_coord[i] - 15 < mouse_pos_left[0] < self.X_coord[i] + 15) and
@@ -155,12 +156,12 @@ class GameState:
                         action_index = y_index * GAMEBOARD_SIZE + x_index
 
                         # If selected spot is already occupied, it is not valid move!
-                        if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1:
+                        if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.lock[y_index, x_index] == 1:
                             check_valid_pos = False
 
         if mouse_pos_right != 0:
             # Red stone turn
-            self.turn = -1
+            
             for i in range(len(self.X_coord)):
                 for j in range(len(self.Y_coord)):
                     if ((self.X_coord[i] - 15 < mouse_pos_right[0] < self.X_coord[i] + 15) and
@@ -168,11 +169,12 @@ class GameState:
                         check_valid_pos = True
                         x_index = i
                         y_index = j
+                        self.lock[y_index, x_index] = 1
 
                         action_index = y_index * GAMEBOARD_SIZE + x_index
 
                         # If selected spot is already occupied, it is not valid move!
-                        if self.gameboard[y_index, x_index] == 5:
+                        if self.lock[y_index, x_index] == 1:
                             check_valid_pos = False
 
         # If self mode and MCTS works
@@ -183,7 +185,7 @@ class GameState:
             check_valid_pos = True
 
             # If selected spot is already occupied, it is not valid move!
-            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1:
+            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.lock[y_index, x_index] == 1:
                 check_valid_pos = False
 
         # Change the gameboard according to the stone's index
@@ -203,7 +205,7 @@ class GameState:
 
             # Red stone
             else:
-                self.gameboard[y_index, x_index] = 5
+                self.lock[y_index, x_index] = 1
 
             # turn for connect6. Only change the turn when # of stones is odd.
             self.turn = (self.turn + (self.num_stones % 2)) % 2
@@ -269,7 +271,7 @@ class GameState:
                     pygame.draw.circle(DISPLAYSURF, WHITE,
                                        (self.X_coord[j], self.Y_coord[i]), 12, 0)
 
-                if self.gameboard[i, j] == 5:
+                if self.lock[i, j] == 1:
                     pygame.draw.circle(DISPLAYSURF, RED,
                                        (self.X_coord[j], self.Y_coord[i]), 12, 0)
 
