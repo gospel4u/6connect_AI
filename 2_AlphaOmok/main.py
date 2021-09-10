@@ -15,7 +15,7 @@ import model
 import utils
 
 # env_small: 9x9, env_regular: 15x15
-from env import env_connect6_small as game
+from env import env_connect6 as game
 
 import pickle
 
@@ -25,19 +25,19 @@ logging.basicConfig(
 
 # Game
 BOARD_SIZE = game.Return_BoardParams()[0]  # 15
-N_MCTS = 10  ## 조절하세요
+N_MCTS = 100  ## 조절하세요
 TAU_THRES = 6
 SEED = 0
 PRINT_SELFPLAY = True
 
 # Net
-N_BLOCKS = 10  # 10개의 NET  ## 조절하세요
+N_BLOCKS = 100  # 10개의 NET  ## 조절하세요
 IN_PLANES = 5  # history * 2 + 1
 OUT_PLANES = 128
 
 # Training
 USE_TENSORBOARD = True
-N_SELFPLAY = 10  ## 조절하세요
+N_SELFPLAY = 100  ## 조절하세요
 TOTAL_ITER = 10000000
 MEMORY_SIZE = 30000
 N_EPOCHS = 1

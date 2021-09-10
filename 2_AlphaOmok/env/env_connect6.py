@@ -32,7 +32,7 @@ HALF_WINDOW_HEIGHT = int(WINDOW_HEIGHT / 2)
 # Colors (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (200, 72, 72)
+RED = (255, 0, 0)
 LIGHT_ORANGE = (198, 108, 58)
 ORANGE = (180, 122, 48)
 GREEN = (72, 160, 72)
@@ -82,6 +82,7 @@ class GameState:
         self.gameboard = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])
         # self.state = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE, INPUT_CHANNEL])
         # self.state[:, :, 16] = 1
+        self.lock = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])  ## 추가 RED STONES CHECK
 
         self.black_win = 0
         self.white_win = 0
@@ -108,6 +109,7 @@ class GameState:
 
             # No stone: 0, Black stone: 1, White stone = -1
             self.gameboard = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE])
+            self.lock = np.zeros([GAMEBOARD_SIZE, GAMEBOARD_SIZE]) ## 추가 
 
             # black turn: 0, white turn: 1
             self.turn = 0
@@ -115,15 +117,22 @@ class GameState:
             self.init = False
 
         # Key settings
-        mouse_pos = 0
+        mouse_pos_left = 0
+        mouse_pos_right = 0
+
         if np.all(input_) == 0 and self.gamemode == 'pygame':
             # If guide mode of O's turn
             for event in pygame.event.get():  # event loop
                 if event.type == QUIT:
                     self.terminate()
-
+                
+                # LEFT CLICK
                 if pygame.mouse.get_pressed()[0]:
-                    mouse_pos = pygame.mouse.get_pos()
+                    mouse_pos_left = pygame.mouse.get_pos()
+                
+                # RIGHT CLICK
+                if pygame.mouse.get_pressed()[2]:
+                   mouse_pos_right = pygame.mouse.get_pos()
 
         # get action and put stone on the board
         check_valid_pos = False
@@ -133,11 +142,13 @@ class GameState:
         # action = np.reshape(input_, (GAMEBOARD_SIZE, GAMEBOARD_SIZE))
 
         action_index = 0
-        if mouse_pos != 0:
+
+        if mouse_pos_left != 0:
+            # Black stone turn
             for i in range(len(self.X_coord)):
                 for j in range(len(self.Y_coord)):
-                    if ((self.X_coord[i] - 15 < mouse_pos[0] < self.X_coord[i] + 15) and
-                            (self.Y_coord[j] - 15 < mouse_pos[1] < self.Y_coord[j] + 15)):
+                    if ((self.X_coord[i] - 15 < mouse_pos_left[0] < self.X_coord[i] + 15) and
+                            (self.Y_coord[j] - 15 < mouse_pos_left[1] < self.Y_coord[j] + 15)):
                         check_valid_pos = True
                         x_index = i
                         y_index = j
@@ -145,7 +156,24 @@ class GameState:
                         action_index = y_index * GAMEBOARD_SIZE + x_index
 
                         # If selected spot is already occupied, it is not valid move!
-                        if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1:
+                        if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.lock[y_index, x_index] == 1:
+                            check_valid_pos = False
+
+        if mouse_pos_right != 0:
+            # Red stone turn
+            for i in range(len(self.X_coord)):
+                for j in range(len(self.Y_coord)):
+                    if ((self.X_coord[i] - 15 < mouse_pos_right[0] < self.X_coord[i] + 15) and
+                            (self.Y_coord[j] - 15 < mouse_pos_right[1] < self.Y_coord[j] + 15)):
+                        check_valid_pos = True
+                        x_index = i
+                        y_index = j
+                        self.lock[y_index, x_index] = 1
+
+                        action_index = y_index * GAMEBOARD_SIZE + x_index
+
+                        # If selected spot is already occupied, it is not valid move!
+                        if self.lock[y_index, x_index] == 1:
                             check_valid_pos = False
 
         # If self mode and MCTS works
@@ -156,7 +184,7 @@ class GameState:
             check_valid_pos = True
 
             # If selected spot is already occupied, it is not valid move!
-            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1:
+            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.lock[y_index, x_index] == 1:
                 check_valid_pos = False
 
         # Change the gameboard according to the stone's index
@@ -164,14 +192,21 @@ class GameState:
             # update state
             # self.state = update_state(self.state, self.turn, x_index, y_index)
 
+            # Black stone
             if self.turn == 0:
                 self.gameboard[y_index, x_index] = 1
                 self.num_stones += 1
-            else:
+
+            # White stone
+            elif self.turn == 1:
                 self.gameboard[y_index, x_index] = -1
                 self.num_stones += 1
-            
-            # turn for connect6
+
+            # Red stone
+            else:
+                self.lock[y_index, x_index] = 1
+
+            # turn for connect6. Only change the turn when # of stones is odd.
             self.turn = (self.turn + (self.num_stones % 2)) % 2
 
         if self.gamemode == 'pygame':
@@ -234,10 +269,13 @@ class GameState:
                 if self.gameboard[i, j] == -1:
                     pygame.draw.circle(DISPLAYSURF, WHITE,
                                        (self.X_coord[j], self.Y_coord[i]), 12, 0)
+                if self.lock[i, j] == 1:
+                    pygame.draw.circle(DISPLAYSURF, RED,
+                                       (self.X_coord[j], self.Y_coord[i]), 12, 0)
 
     # Display title
     def title_msg(self):
-        titleSurf = TITLE_FONT.render('Mini Omok', True, WHITE)
+        titleSurf = TITLE_FONT.render('Connect 6', True, WHITE)
         titleRect = titleSurf.get_rect()
         titleRect.topleft = (MARGIN, 10)
         DISPLAYSURF.blit(titleSurf, titleRect)
@@ -245,7 +283,7 @@ class GameState:
     # Display rule
     def rule_msg(self):
         ruleSurf1 = BASIC_FONT.render(
-            'Win: Stones has to be 5 in a row', True, WHITE)
+            'Win: Stones has to be 6 in a row', True, WHITE)
         ruleRect1 = ruleSurf1.get_rect()
         ruleRect1.topleft = (MARGIN, 50)
         DISPLAYSURF.blit(ruleSurf1, ruleRect1)

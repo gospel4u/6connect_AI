@@ -68,7 +68,7 @@ def check_win(board, win_mark):
     return 0
 
 
-def render_str(board, board_size, action_index, lock):
+def render_str(board, board_size, action_index):
     if action_index is not None:
         row = action_index // board_size
         col = action_index % board_size
