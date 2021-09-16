@@ -252,7 +252,7 @@ def get_action(pi, idx):
     else:
         action_size = len(pi)
         action = np.zeros(action_size)
-        action_index = 81 // 2
+        action_index = (15*15) // 2
         action[action_index] = 1
 
     return action, action_index
