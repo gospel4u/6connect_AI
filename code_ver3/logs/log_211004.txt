@@ -1,0 +1,499 @@
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 400
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:45:42.455525
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:46:18.638659
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:48:32.198231
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:49:20.567646
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:49:28.740898
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:49:59.572042
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:51:33.564957
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:52:22.436269
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:55:06.434160
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T22:55:43.945676
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:00:36.692820
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:01:44.302236
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:04:06.611025
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:04:31.173855
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 1
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:07:57.318877
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:2021-10-04T23:09:31.217646
+WARNING:root:==========================================================
+WARNING:root:                       1 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 87
+WARNING:root:replay memory size: 1304
+WARNING:root:train memory size: 1304
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
+WARNING:root: 1 Epoch Loss: 6.3243   Loss V: 0.8369   Loss P: 5.4874
+WARNING:root:2021-10-04T23:13:27.944643
+WARNING:root:==========================================================
+WARNING:root:                       2 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 1
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:16:30.892698
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 1
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:16:52.801529
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:2021-10-04T23:18:38.267543
+WARNING:root:==========================================================
+WARNING:root:                       1 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 87
+WARNING:root:replay memory size: 1304
+WARNING:root:train memory size: 1304
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
+WARNING:root: 1 Epoch Loss: 6.3243   Loss V: 0.8369   Loss P: 5.4874
+WARNING:root:2021-10-04T23:22:53.471729
+WARNING:root:==========================================================
+WARNING:root:                       2 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: False
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 15
+N_MCTS: 10
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 1
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:2021-10-04T23:23:20.525547
+WARNING:root:==========================================================
+WARNING:root:                       0 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:2021-10-04T23:26:17.673054
+WARNING:root:==========================================================
+WARNING:root:                       1 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 131
+WARNING:root:replay memory size: 2072
+WARNING:root:train memory size: 2072
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
+WARNING:root: 1 Epoch Loss: 6.0981   Loss V: 0.6408   Loss P: 5.4573
+WARNING:root:2021-10-04T23:33:46.029471
+WARNING:root:==========================================================
+WARNING:root:                       2 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 300
+WARNING:root:replay memory size: 4472
+WARNING:root:train memory size: 4472
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
+WARNING:root: 2 Epoch Loss: 5.9206   Loss V: 0.5161   Loss P: 5.4044
+WARNING:root:2021-10-04T23:47:37.073137
+WARNING:root:==========================================================
+WARNING:root:                       3 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 417
+WARNING:root:replay memory size: 7808
+WARNING:root:train memory size: 7808
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
+WARNING:root: 3 Epoch Loss: 5.7526   Loss V: 0.3536   Loss P: 5.3990
+WARNING:root:2021-10-05T00:08:13.572611
+WARNING:root:==========================================================
+WARNING:root:                       4 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:==========================================================
+WARNING:root:                     Start Learning                     
+WARNING:root:==========================================================
+WARNING:root:current memory size: 563
+WARNING:root:replay memory size: 12312
+WARNING:root:train memory size: 12312
+WARNING:root:optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.0001
+    weight_decay: 0.0001
+)
