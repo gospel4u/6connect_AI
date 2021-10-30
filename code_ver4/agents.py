@@ -75,8 +75,10 @@ class ZeroAgent(Agent):
         pi = visit / (visit.sum() + 1e-8) # normally visit.sum() is not zero because of expansion
 
         print("agent pi: ", pi)
-        # if tau == 0:
-        #     pi, _ = utils.argmax_onehot(pi)
+        for idx, p in enumerate(pi):
+            if p != 0 and p < 1e-4:
+                pi[idx] = 0
+        print("after multiply: ", pi)
 
         return pi
 
