@@ -257,7 +257,7 @@ def get_action(pi, idx, count):
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
         #norm = np.linalg.norm(pi2)
         #pi2 = pi2 / norm
-        pi2 /= pi2.sum()
+        pi2 /= np.nansum(pi2)
         #np.nan_to_num(pi2, copy=False)
         action_size = len(pi)
         action = np.zeros(action_size)
@@ -296,7 +296,7 @@ def get_action(pi, idx, count):
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
         #norm = np.linalg.norm(pi2)
         #pi2 = pi2 / norm
-        pi2 /= pi2.sum()
+        pi2 /= np.nansum(pi2)
         #np.nan_to_num(pi2, copy=False)
         action_size = len(pi)
         action = np.zeros(action_size)
@@ -339,7 +339,7 @@ def get_action(pi, idx, count):
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
         #norm = np.linalg.norm(pi2)
         #pi2 = pi2 / norm
-        pi2 /= pi2.sum()
+        pi2 /= np.nansum(pi2)
         #np.nan_to_num(pi2, copy=False)
         action_size = len(pi)
         action = np.zeros(action_size)
@@ -378,7 +378,7 @@ def get_action(pi, idx, count):
     elif idx == 0: # 15x15
         action_size = len(pi)
         action = np.zeros(action_size)
-        pi /= pi.sum()
+        pi /= np.nansum(pi)
         action_index = np.random.choice(action_size, p=pi, replace=False)
         print("max_idx", pi.argmax())
         print("action_index", action_index)
