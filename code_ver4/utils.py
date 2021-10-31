@@ -254,7 +254,7 @@ def get_action(pi, idx, count):
             pi2.append(pi[head:tail+1])
             head += 15
             tail += 15
-        pi2 = np.round(np.array(pi2).reshape(-1), 6)
+        pi2 = np.round_(np.array(pi2).reshape(-1), 4)
         #norm = np.linalg.norm(pi2)
         #pi2 = pi2 / norm
         pi2 /= pi2.sum()
