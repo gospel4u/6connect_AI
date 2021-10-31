@@ -263,6 +263,7 @@ def get_action(pi, idx, count):
         action = np.zeros(action_size)
         action_size = 7*7
         
+        print(pi2)
         action_index = np.random.choice(action_size, p=pi2, replace=False)
         print(action_index)
 
@@ -302,6 +303,7 @@ def get_action(pi, idx, count):
         action = np.zeros(action_size)
         action_size = 9*9
         
+        print(pi2)
         action_index = np.random.choice(action_size, p=pi2, replace=False)
         print(action_index)
 
@@ -345,6 +347,7 @@ def get_action(pi, idx, count):
         action = np.zeros(action_size)
         action_size = 11*11
         
+        print(pi2)
         action_index = np.random.choice(action_size, p=pi2, replace=False)
         print(action_index)
 
