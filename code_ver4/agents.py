@@ -78,6 +78,7 @@ class ZeroAgent(Agent):
         for idx, p in enumerate(pi):
             if p != 0 and p < 1e-4:
                 pi[idx] = 0
+        pi = np.round_(pi, 4)
         print("after multiply: ", pi)
 
         return pi
