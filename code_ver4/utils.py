@@ -378,6 +378,7 @@ def get_action(pi, idx, count):
     elif idx == 0: # 15x15
         action_size = len(pi)
         action = np.zeros(action_size)
+        pi /= pi.sum()
         action_index = np.random.choice(action_size, p=pi, replace=False)
         print("max_idx", pi.argmax())
         print("action_index", action_index)
