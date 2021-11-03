@@ -205,6 +205,7 @@ def get_state_pt(node_id, board_size, channel_size, win_mark=5):
 
     history.append(color * color_idx)
     state = np.stack(history)
+
     return state
 
 
@@ -244,7 +245,7 @@ def get_turn(node_id):
         return 1
 
 
-def get_action(pi, idx, count, state, board_size):
+def get_action(pi, idx, count, state):
     if idx == 0 and count < 20: # 7x7
         pi2 = []
         head = 64
@@ -254,29 +255,21 @@ def get_action(pi, idx, count, state, board_size):
             head += 15
             tail += 15
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
-        print("pi2 : ", pi2)
-        if not np.any(pi2) == True:
-            print("in get_action : ", state)
+        #norm = np.linalg.norm(pi2)
+        #pi2 = pi2 / norm
+        if np.isnan(pi2).all() == True:
             while True:
-                id = np.random.randint(64, 71)
-                scale = np.random.randint(0, 7)
-                index = id + (15 * scale)
-                row = index // board_size
-                col = index % board_size
-                if state[row, col] == 0:
-                    action_index = index
+                idx = np.random.randint(64, 161)
+                if state[idx] == False:
+                    action_index = idx
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
-        else: 
-            print("before else pi2 : ", pi2)
+        else:  
             pi2 /= np.nansum(pi2)
-            np.nan_to_num(pi2, copy=False)
             action_size = len(pi)
             action = np.zeros(action_size)
             action_size = 7*7
-
-            print("after else pi2 : ", pi2)
             action_index = np.random.choice(action_size, p=pi2, replace=False)
             print(action_index)
 
@@ -307,27 +300,23 @@ def get_action(pi, idx, count, state, board_size):
             head += 15
             tail += 15
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
-        if not np.any(pi2) == True:
-            print("in get_action : ", state)
+        #norm = np.linalg.norm(pi2)
+        #pi2 = pi2 / norm
+        if np.isnan(pi2).all() == True:
             while True:
-                id = np.random.randint(48, 57)
-                scale = np.random.randint(0, 9)
-                index = id + (15 * scale)
-                row = index // board_size
-                col = index % board_size
-                if state[row, col] == 0:
-                    action_index = index
+                idx = np.random.randint(48, 177)
+                if state[idx] == False:
+                    action_index = idx
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
         else:
             pi2 /= np.nansum(pi2)
-            np.nan_to_num(pi2, copy=False)
+            #np.nan_to_num(pi2, copy=False)
             action_size = len(pi)
             action = np.zeros(action_size)
             action_size = 9*9
             
-            print(pi2)
             action_index = np.random.choice(action_size, p=pi2, replace=False)
             print(action_index)
 
@@ -363,27 +352,23 @@ def get_action(pi, idx, count, state, board_size):
             head += 15
             tail += 15
         pi2 = np.round_(np.array(pi2).reshape(-1), 4)
-        if not np.any(pi2) == True:
-            print("in get_action : ", state)
+        #norm = np.linalg.norm(pi2)
+        #pi2 = pi2 / norm
+        if np.isnan(pi2).all() == True:
             while True:
-                id = np.random.randint(32, 43)
-                scale = np.random.randint(0, 11)
-                index = id + (15 * scale)
-                row = index // board_size
-                col = index % board_size
-                if state[row, col] == 0:
-                    action_index = index
+                idx = np.random.randint(32, 193)
+                if state[idx] == False:
+                    action_index = idx
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
         else:
             pi2 /= np.nansum(pi2)
-            np.nan_to_num(pi2, copy=False)
+            #np.nan_to_num(pi2, copy=False)
             action_size = len(pi)
             action = np.zeros(action_size)
             action_size = 11*11
             
-            print(pi2)
             action_index = np.random.choice(action_size, p=pi2, replace=False)
             print(action_index)
 
@@ -414,84 +399,17 @@ def get_action(pi, idx, count, state, board_size):
             print("max_idx", pi2.argmax())
         print("action_index", action_index)
         action[action_index] = 1
-    elif idx == 0 and count < 80: #13x13
-        pi2 = []
-        head = 16
-        tail = 28
-        for i in range(13):
-            pi2.append(pi[head:tail+1])
-            head += 15
-            tail += 15
-        pi2 = np.round_(np.array(pi2).reshape(-1), 4)
-        if not np.any(pi2) == True:
-            print("in get_action : ", state)
-            while True:
-                id = np.random.randint(16, 29)
-                scale = np.random.randint(0, 13)
-                index = id + (15 * scale)
-                row = index // board_size
-                col = index % board_size
-                if state[row, col] == 0:
-                    action_index = index
-                    action_size = len(pi)
-                    action = np.zeros(action_size)
-                    break
-        else:
-            pi2 /= np.nansum(pi2)
-            np.nan_to_num(pi2, copy=False)
-            action_size = len(pi)
-            action = np.zeros(action_size)
-            action_size = 13*13
-            
-            print(pi2)
-            action_index = np.random.choice(action_size, p=pi2, replace=False)
-            print(action_index)
-
-            head = 16
-            if 0 <= action_index < 13:
-                action_index = head + action_index
-            elif 13 <= action_index < (13*2):
-                action_index = head + 2 + action_index
-            elif (13*2) <= action_index < (13*3):
-                action_index = head + (2 * 2) + action_index
-            elif (13*3) <= action_index < (13*4):
-                action_index = head + (2 * 3) + action_index
-            elif (13*4) <= action_index < (13*5):
-                action_index = head + (2 * 4) + action_index
-            elif (13*5) <= action_index < (13*6):
-                action_index = head + (2 * 5) + action_index
-            elif(13*6) <= action_index < (13*7):
-                action_index = head + (2 * 6) + action_index
-            elif(13*7) <= action_index < (13*8):
-                action_index = head + (2 * 7) + action_index
-            elif(13*8)<= action_index < (13*9):
-                action_index = head + (2 * 8) + action_index
-            elif(13*9)<= action_index < (13*10):
-                action_index = head + (2 * 9) + action_index
-            elif(13*10)<= action_index < (13*11):
-                action_index = head + (2 * 10) + action_index
-            elif(13*11)<= action_index < (13*12):
-                action_index = head + (2 * 11) + action_index
-            elif(13*12)<= action_index < (13*13):
-                action_index = head + (2 * 12) + action_index
-
-            print("max_idx", pi2.argmax())
-        print("action_index", action_index)
-        action[action_index] = 1
     elif idx == 0: # 15x15
         action_size = len(pi)
         action = np.zeros(action_size)
-        if not np.any(pi) == True:
+        if np.isnan(pi).all() == True:
             while True:
-                index = np.random.randint(0, 255)
-                row = index // board_size
-                col = index % board_size
-                if state[row, col] == 0:
-                    action_index = index
+                idx = np.random.randint(0, 225)
+                if state[idx] == False:
+                    action_index = idx
                     break
         else:
             pi /= np.nansum(pi)
-            np.nan_to_num(pi, copy=False)
             action_index = np.random.choice(action_size, p=pi, replace=False)
             print("max_idx", pi.argmax())
         print("action_index", action_index)
