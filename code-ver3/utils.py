@@ -258,11 +258,13 @@ def get_action(pi, idx, count, state, board_size):
         if not np.any(pi2) == True:
             print("in get_action : ", state)
             while True:
-                idx = np.random.randint(64, 161)
-                row = idx // board_size
-                col = idx % board_size
+                id = np.random.randint(64, 71)
+                scale = np.random.randint(0, 7)
+                index = id + (15 * scale)
+                row = index // board_size
+                col = index % board_size
                 if state[row, col] == 0:
-                    action_index = idx
+                    action_index = index
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
@@ -308,11 +310,13 @@ def get_action(pi, idx, count, state, board_size):
         if not np.any(pi2) == True:
             print("in get_action : ", state)
             while True:
-                idx = np.random.randint(48, 177)
-                row = idx // board_size
-                col = idx % board_size
+                id = np.random.randint(48, 57)
+                scale = np.random.randint(0, 9)
+                index = id + (15 * scale)
+                row = index // board_size
+                col = index % board_size
                 if state[row, col] == 0:
-                    action_index = idx
+                    action_index = index
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
@@ -362,11 +366,13 @@ def get_action(pi, idx, count, state, board_size):
         if not np.any(pi2) == True:
             print("in get_action : ", state)
             while True:
-                idx = np.random.randint(32, 193)
-                row = idx // board_size
-                col = idx % board_size
+                id = np.random.randint(32, 43)
+                scale = np.random.randint(0, 11)
+                index = id + (15 * scale)
+                row = index // board_size
+                col = index % board_size
                 if state[row, col] == 0:
-                    action_index = idx
+                    action_index = index
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
@@ -420,11 +426,13 @@ def get_action(pi, idx, count, state, board_size):
         if not np.any(pi2) == True:
             print("in get_action : ", state)
             while True:
-                idx = np.random.randint(16, 209)
-                row = idx // board_size
-                col = idx % board_size
+                id = np.random.randint(16, 29)
+                scale = np.random.randint(0, 13)
+                index = id + (15 * scale)
+                row = index // board_size
+                col = index % board_size
                 if state[row, col] == 0:
-                    action_index = idx
+                    action_index = index
                     action_size = len(pi)
                     action = np.zeros(action_size)
                     break
@@ -475,11 +483,11 @@ def get_action(pi, idx, count, state, board_size):
         action = np.zeros(action_size)
         if not np.any(pi) == True:
             while True:
-                idx = np.random.randint(0, 255)
-                row = idx // board_size
-                col = idx % board_size
+                index = np.random.randint(0, 255)
+                row = index // board_size
+                col = index % board_size
                 if state[row, col] == 0:
-                    action_index = idx
+                    action_index = index
                     break
         else:
             pi /= np.nansum(pi)
