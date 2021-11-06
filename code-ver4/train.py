@@ -404,8 +404,8 @@ if __name__ == '__main__':
     #                  api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiIwMmUzNjYxZC0xNjkxLTRjMWQtOGJkYS0xNzhlNzg3MzQwOGIifQ==')
     # neptune.create_experiment(name='Connect6')
     
-    model_path = '../six/data/211020_3400_3092420_step_model.pickle'
-    dataset_path = '../six/data/211020_3400_3092420_step_dataset.pickle'
+    model_path = '/home/june/2021-2/SW-Festival/six-ver5/data/211105_600_464032_step_model.pickle'
+    dataset_path = '/home/june/2021-2/SW-Festival/six-ver5/data/211105_600_464032_step_dataset.pickle'
 
     load_data(model_path, dataset_path)
 
