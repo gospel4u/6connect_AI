@@ -23,8 +23,8 @@ import pickle
 
 BOARD_SIZE = game.Return_BoardParams()[0]
 
-N_BLOCKS_PLAYER = 10
-N_BLOCKS_ENEMY = 10
+N_BLOCKS_PLAYER = 1
+N_BLOCKS_ENEMY = 1
 
 IN_PLANES_PLAYER = 5  # history * 2 + 1
 IN_PLANES_ENEMY = 5
@@ -33,8 +33,8 @@ OUT_PLANES_PLAYER = 128
 OUT_PLANES_ENEMY = 128
 
 N_MCTS_PLAYER = 1
-N_MCTS_ENEMY = 50
-N_MCTS_MONITOR = 10
+N_MCTS_ENEMY = 1
+N_MCTS_MONITOR = 1
 
 N_MATCH = 3
 
@@ -47,14 +47,14 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 #       'web': web play                                   #
 # ======================================================= #
 # example)
-# with open('./data/210926_10_0_step_model.pickle', 'rb') as f:
+# with open('./211109_1800_1495832_step_model.pickle', 'rb') as f:
 #     our_model = pickle.load(f)
 
-PATH = "./data/210928_180_2767487_step_model.pth"
+PATH = "./data/211110_100_0_step_model.pth"
 # 불러오기
 our_model = torch.load(PATH, map_location=device)
 
-print(our_model.model)
+print(our_model)
 
 player_model_path = 'human'
 #enemy_model_path = our_model#'./data/210926_10_0_step_model.pickle'
@@ -128,17 +128,17 @@ class Evaluator(object):
             self.enemy = agents.WebAgent(BOARD_SIZE)
         else:
             print('load enemy model:', model_path_b)
-            self.enemy = agents.PUCTAgent(BOARD_SIZE,
-                         game.WIN_STONES,
-                         N_MCTS_ENEMY)
+            # self.enemy = agents.PUCTAgent(BOARD_SIZE,
+            #              game.WIN_STONES,
+            #              N_MCTS_ENEMY)
             
-            self.enemy.model = our_model.model
+            self.enemy = agents.ZeroAgent(BOARD_SIZE,
+                                          game.WIN_STONES,
+                                          N_MCTS_ENEMY,
+                                          IN_PLANES_ENEMY,
+                                          noise=False)
+            self.enemy.model = our_model
             state_b = self.enemy.model.state_dict()
-            # self.enemy = agents.ZeroAgent(BOARD_SIZE,
-            #                               game.WIN_STONES,
-            #                               N_MCTS_ENEMY,
-            #                               IN_PLANES_ENEMY,
-            #                               noise=False)
             # self.enemy.model = model.PVNet(N_BLOCKS_ENEMY,
             #                                IN_PLANES_ENEMY,
             #                                OUT_PLANES_ENEMY,
@@ -156,7 +156,7 @@ class Evaluator(object):
                          game.WIN_STONES,
                          N_MCTS_MONITOR)
         #self.monitor = our_model
-        self.monitor.model = our_model.model
+        self.monitor.model = our_model
         state_b = self.monitor.model.state_dict()
         # self.monitor = agents.ZeroAgent(BOARD_SIZE,
         #                                 game.WIN_STONES,

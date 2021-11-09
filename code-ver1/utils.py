@@ -1,8 +1,10 @@
 from collections import deque
 
 import numpy as np
+#from sklearn import preprocessing
 
-ALPHABET = ' A B C D E F G H I J K L M N O P Q R S'
+
+ALPHABET = ' A B C D E F G H J K L M N O P Q R S T'
 
 
 def valid_actions(board):
@@ -75,12 +77,13 @@ def render_str(board, board_size, action_index):
 
     count = np.count_nonzero(board)
 
-    board_str = '\n  {}\n'.format(ALPHABET[:board_size * 2])
+    board_str = '\n'
+    #board_str += '  {}\n'.format(ALPHABET[:board_size * 2])
 
     for i in range(board_size):
         for j in range(board_size):
             if j == 0:
-                board_str += '{:2}'.format(i + 1)
+                board_str += '{:02}'.format(board_size - i)
 
             # Blank board
             if board[i][j] == 0:
@@ -124,11 +127,11 @@ def render_str(board, board_size, action_index):
 
             if j == board_size - 1:
                 board_str += ' \n'
-
         if i == board_size - 1:
+            board_str += '  {}\n'.format(ALPHABET[:board_size * 2])
             board_str += '  ' + '-' * (board_size - 6) + \
                 '  MOVE: {:2}  '.format(count) + '-' * (board_size - 6)
-
+    
     print(board_str)
 
 
@@ -203,7 +206,6 @@ def get_state_pt(node_id, board_size, channel_size, win_mark=5):
 
     history.append(color * color_idx)
     state = np.stack(history)
-
     return state
 
 
@@ -242,20 +244,88 @@ def get_turn(node_id):
     else:
         return 1
 
+def help_func(window_size, head, board_size, formular, pi, state):
+    pi2 = []
+    head_copy = head
+    tail = head + (window_size-1)
+    for i in range(window_size):
+        pi2.append(pi[head:tail+1])
+        head += board_size
+        tail += board_size
+    pi2 = np.round(np.array(pi2).reshape(-1), 4)
+    
+    # head & tail 초기화
+    head = head_copy
+    tail = head + (window_size-1)
+    if not np.any(pi2) == True:
+        while True:
+            id = np.random.randint(head, tail+1)
+            scale = np.random.randint(0, window_size)
+            index = id + (board_size * scale)
+            row = index // board_size
+            col = index % board_size
+            if state[row, col] == 0:
+                action_index = index
+                action_size = len(pi)
+                action = np.zeros(action_size)
+                break
+                
+    else: 
+        pi2 /= np.nansum(pi2)
+        np.nan_to_num(pi2, copy=False)
+        action_size = len(pi)
+        action = np.zeros(action_size)
+        action_size = window_size*window_size
+        action_index = np.random.choice(action_size, p=pi2, replace=False)
 
-def get_action(pi, idx):
+    for i in range(window_size):
+        if window_size*i <= action_index < window_size*(i+1):
+            action_index = head + action_index + (formular*i)
+            break
+    print("max_idx", pi2.argmax())
+    action[action_index] = 1
+    return action, action_index
+
+def get_action(pi, idx, count, state, board_size):
+
     if idx == 0:
+        ws = 7
+        head = 120
+        formular = 12
+        checking = False
+        for i in range(6):
+            if count < 20 * (i + 1):
+                action, action_index = help_func(window_size=ws+(i*2), head=head-(i*20), board_size=board_size,
+                                         formular=formular-(i*2), pi=pi, state=state)
+                checking = True
+                break
+        if checking == False: # count > 120 && 위에 조건 들어가지 않음
+            action_size = len(pi)
+            action = np.zeros(action_size)
+            if not np.any(pi) == True:
+                while True:
+                    index = np.random.randint(0, 360)
+                    row = index // board_size
+                    col = index % board_size
+                    if state[row, col] == 0:
+                        action_index = index
+                        break
+            else:
+                pi /= np.nansum(pi)
+                np.nan_to_num(pi, copy=False)
+                action_index = np.random.choice(action_size, p=pi, replace=False)
+                print("max_idx", pi.argmax())
+            print("action_index", action_index)
+            action[action_index] = 1
+            
+    else: # 가장 처음 두는 돌 (idx == 1)
         action_size = len(pi)
         action = np.zeros(action_size)
-        action_index = np.random.choice(action_size, p=pi, replace=False)
-        print("max_idx", pi.argmax())
-        print("action_index", action_index)
+        action_index = (board_size*board_size) // 2
         action[action_index] = 1
-    else:
-        action_size = len(pi)
-        action = np.zeros(action_size)
-        action_index = (15*15) // 2
-        action[action_index] = 1
+
+    row = action_index // board_size
+    col = action_index % board_size
 
     return action, action_index
 

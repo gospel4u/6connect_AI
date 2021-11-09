@@ -60,10 +60,10 @@ class ZeroAgent(Agent):
     def get_pi(self, root_id, tau):
         self._init_mcts(root_id)
         self._mcts(self.root_id)
-
+        
         visit = np.zeros(self.board_size**2, 'float')
         policy = np.zeros(self.board_size**2, 'float')
-
+        
         for action_index in self.tree[self.root_id]['child']:
             child_id = self.root_id + (action_index,)
             visit[action_index] = self.tree[child_id]['n']
@@ -75,8 +75,11 @@ class ZeroAgent(Agent):
         pi = visit / (visit.sum() + 1e-8) # normally visit.sum() is not zero because of expansion
 
         print("agent pi: ", pi)
-        # if tau == 0:
-        #     pi, _ = utils.argmax_onehot(pi)
+        for idx, p in enumerate(pi):
+            if p != 0 and p < 1e-4:
+                pi[idx] = 0
+        pi = np.round_(pi, 4)
+        print("after multiply: ", pi)
 
         return pi
 
@@ -162,7 +165,7 @@ class ZeroAgent(Agent):
 
             max_value = max(qu.values())
             ids = [key for key, value in qu.items() if value == max_value] # argmax indices
-            node_id = ids[np.random.choice(len(ids))] # key & value of seleted index among argmax indices
+            node_id = ids[np.random.choice(int(len(ids) > 0))] # key & value of seleted index among argmax indices
 
         board = utils.get_board(node_id, self.board_size, self.win_mark)
         win_index = utils.check_win(board, self.win_mark)

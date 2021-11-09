@@ -158,6 +158,7 @@ def self_play(n_selfplay):
             # ===================== collect samples ======================== #
 
             state = utils.get_state_pt(root_id, BOARD_SIZE, IN_PLANES, game.WIN_STONES)
+            state_arr = utils.get_board(root_id, BOARD_SIZE)
 
             if turn == 0:
                 state_black.appendleft(state)
@@ -167,10 +168,11 @@ def self_play(n_selfplay):
                 pi_white.appendleft(pi)
 
             # ======================== get action ========================== #
+            
             if ep == 0:
-                action, action_index = utils.get_action(pi, 1)
+                action, action_index = utils.get_action(pi, 1, count=ep, state=state_arr, board_size = BOARD_SIZE)
             else:
-                action, action_index = utils.get_action(pi, 0)
+                action, action_index = utils.get_action(pi, 0, count=ep, state=state_arr, board_size = BOARD_SIZE)
             ep += 1
             #print("action", action)
             #print("action idx", action_index)
@@ -348,8 +350,8 @@ def train(lr, n_epochs, n_iter):
 
 def save_model(agent, n_iter, step):
     torch.save(
-        agent.model.state_dict(),
-        'data/{}_{}_{}_step_model.pickle'.format(datetime_now, n_iter, step))
+        agent.model,
+        'data/{}_{}_{}_step_model.pth'.format(datetime_now, n_iter, step))
 
 
 def save_dataset(memory, n_iter, step):
@@ -363,9 +365,9 @@ def load_data(model_path, dataset_path):
     if model_path:
         print('load model: {}'.format(model_path))
         logging.warning('load model: {}'.format(model_path))
-        state = Agent.model.state_dict()
-        state.update(torch.load(model_path))
-        Agent.model.load_state_dict(state)
+        model = Agent.model
+        model.update(torch.load(model_path))
+        Agent.model = model
         step = int(model_path.split('_')[2])
         start_iter = int(model_path.split('_')[1]) + 1
     if dataset_path:

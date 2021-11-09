@@ -13,7 +13,7 @@ from pygame.locals import *
 
 from utils import check_win
 
-GAMEBOARD_SIZE = 15
+GAMEBOARD_SIZE = 19
 WIN_STONES = 6
 
 # Window Information
