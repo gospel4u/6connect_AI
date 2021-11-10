@@ -272,7 +272,7 @@ def main():
         game_info.game_status = 0
 
         while win_index == 0:
-            utils.render_str(board, BOARD_SIZE, action_index, lock)
+            utils.render_str(board, BOARD_SIZE, action_index)
 
             p, v = evaluator.monitor.get_pv(root_id)
 
@@ -345,7 +345,7 @@ def main():
                         player_elo, enemy_elo = elo(
                             player_elo, enemy_elo, 0, 1)
 
-                utils.render_str(board, BOARD_SIZE, action_index, lock)
+                utils.render_str(board, BOARD_SIZE, action_index)
                 # Change turn
                 enemy_turn = abs(enemy_turn - 1)
                 turn = 0

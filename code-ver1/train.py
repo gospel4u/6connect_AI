@@ -200,7 +200,7 @@ def self_play(n_selfplay):
                     print("\nWhite's win%: {:.2f}%".format((v + 1) / 2 * 100))
 
             # =========================== step ============================= #
-
+            print("ACTION: {}, {}, {}", action, type(action), action.shape)
             board, _, win_index, turn, _ = env.step(action)
             time_steps += 1
 
