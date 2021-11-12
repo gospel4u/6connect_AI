@@ -23,8 +23,8 @@ import pickle
 
 BOARD_SIZE = game.Return_BoardParams()[0]
 
-N_BLOCKS_PLAYER = 1
-N_BLOCKS_ENEMY = 1
+N_BLOCKS_PLAYER = 10
+N_BLOCKS_ENEMY = 10
 
 IN_PLANES_PLAYER = 5  # history * 2 + 1
 IN_PLANES_ENEMY = 5
@@ -33,7 +33,7 @@ OUT_PLANES_PLAYER = 128
 OUT_PLANES_ENEMY = 128
 
 N_MCTS_PLAYER = 1
-N_MCTS_ENEMY = 1
+N_MCTS_ENEMY = 100
 N_MCTS_MONITOR = 1
 
 N_MATCH = 3
@@ -50,7 +50,7 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # with open('./211109_1800_1495832_step_model.pickle', 'rb') as f:
 #     our_model = pickle.load(f)
 
-PATH = "./data/211110_100_0_step_model.pth"
+PATH = "./data/211112_400_277311_step_dataset/211112_400_277311_step_model.pth"
 # 불러오기
 our_model = torch.load(PATH, map_location=device)
 
@@ -175,7 +175,7 @@ class Evaluator(object):
                 state_b[k] = v
         self.monitor.model.load_state_dict(state_b)
 
-    def get_action(self, root_id, board, turn, enemy_turn):
+    def get_action(self, root_id, board, turn, enemy_turn, count):
         if turn != enemy_turn:
             if isinstance(self.player, agents.ZeroAgent):
                 pi = self.player.get_pi(root_id, tau=0)
@@ -189,9 +189,12 @@ class Evaluator(object):
                 pi = self.enemy.get_pi(root_id, tau=0)
             else:
                 pi = self.enemy.get_pi(root_id, board, turn, tau=0)
-
-        action, action_index = utils.argmax_onehot(pi)
-
+                
+        state_arr = utils.get_board(root_id, BOARD_SIZE)
+        if count == 0:
+            action, action_index = utils.get_action(pi, 1, count=count, state=state_arr, board_size = BOARD_SIZE)
+        else:
+            action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
         return action, action_index
 
     def return_env(self):
@@ -261,7 +264,7 @@ def main():
         root_id = (0,)
         win_index = 0
         action_index = None
-
+        count = 0
         game_info.game_board = board
         
         if i % 2 == 0:
@@ -279,8 +282,9 @@ def main():
             action, action_index = evaluator.get_action(root_id,
                                                         board,
                                                         turn,
-                                                        enemy_turn)
-            
+                                                        enemy_turn,
+                                                        count)
+            count += 1
             if turn != enemy_turn:
                 # player turn
                 root_id = evaluator.player.root_id + (action_index,)
