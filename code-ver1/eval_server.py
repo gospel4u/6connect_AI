@@ -21,21 +21,23 @@ from info.game_info import GameInfo
 
 import pickle
 from CONNSIX import connsix
+import time
 
 BOARD_SIZE = game.Return_BoardParams()[0]
 
-N_BLOCKS_PLAYER = 1
-N_BLOCKS_ENEMY = 10
+# N_BLOCKS_PLAYER = 1
+# N_BLOCKS_ENEMY = 10
 
 IN_PLANES_PLAYER = 5  # history * 2 + 1
-IN_PLANES_ENEMY = 5
+# IN_PLANES_ENEMY = 5
 
-OUT_PLANES_PLAYER = 128
-OUT_PLANES_ENEMY = 128
+# OUT_PLANES_PLAYER = 128
+# OUT_PLANES_ENEMY = 128
 
-N_MCTS_PLAYER = 1
-N_MCTS_ENEMY = 10
-N_MCTS_MONITOR = 10
+WIN_STONES = 6
+N_MCTS_PLAYER = 100
+# N_MCTS_ENEMY = 10
+# N_MCTS_MONITOR = 10
 
 use_cuda = torch.cuda.is_available()
 device = torch.device('cuda' if use_cuda else 'cpu')
@@ -49,7 +51,7 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # with open('./211109_1800_1495832_step_model.pickle', 'rb') as f:
 #     our_model = pickle.load(f)
 
-PATH = "./data/211110_100_0_step_model.pth"
+PATH = "./data/211117_1200_1027711_step_dataset/211117_1200_1027711_step_model.pth"
 # 불러오기
 our_model = torch.load(PATH, map_location=device)
 
@@ -66,54 +68,28 @@ class Evaluator(object):
         pass
 
     def set_agents(self, model_path_a):
+        self.env = game.GameState('text')
 
-        if model_path_a == 'human':
-            game_mode = 'pygame'
-        else:
-            game_mode = 'text'
-
-        self.env = game.GameState(game_mode)
-
-        if model_path_a == 'random':
-            print('load player model:', model_path_a)
-            self.player = agents.RandomAgent(BOARD_SIZE)
-        elif model_path_a == 'puct':
-            print('load player model:', model_path_a)
-            self.player = agents.PUCTAgent(BOARD_SIZE, game.WIN_STONES, N_MCTS_PLAYER)
-        elif model_path_a == 'uct':
-            print('load player model:', model_path_a)
-            self.player = agents.UCTAgent(BOARD_SIZE, game.WIN_STONES, N_MCTS_PLAYER)
-        elif model_path_a == 'human':
-            print('load player model:', model_path_a)
-            self.player = agents.HumanAgent(BOARD_SIZE, self.env)
-        elif model_path_a == 'web':
-            print('load player model:', model_path_a)
-            self.player = agents.WebAgent(BOARD_SIZE)
-        else:
-            print('load player model:', model_path_a)
-            self.player = agents.ZeroAgent(BOARD_SIZE,
+        self.player = agents.ZeroAgent(BOARD_SIZE,
                                           game.WIN_STONES,
-                                          N_MCTS_ENEMY,
-                                          IN_PLANES_ENEMY,
+                                          N_MCTS_PLAYER,
+                                          IN_PLANES_PLAYER,
                                           noise=False)
-            self.player.model = our_model
-            state_a = self.player.model.state_dict()
-            
-            for k, v in state_a.items():
-                if k in state_a:
-                    state_a[k] = v
-            self.player.model.load_state_dict(state_a)
+        self.player.model = our_model
+        # state_a = self.player.model.state_dict()
+        
+        # for k, v in state_a.items():
+        #     if k in state_a:
+        #         state_a[k] = v
+        # self.player.model.load_state_dict(state_a)
 
-    def get_action(self, root_id, board, turn, enemy_turn, count):
-        if turn != enemy_turn:
-            if isinstance(self.player, agents.ZeroAgent):
-                pi = self.player.get_pi(root_id, tau=0)
-            else:
-                pi = self.player.get_pi(root_id, board, turn, tau=0)
+    def get_action(self, root_id, board, turn, enemy_turn, count, state_arr):
+        if isinstance(self.player, agents.ZeroAgent):
+            pi = self.player.get_pi(root_id, tau=0)
         else:
-            return
+            pi = self.player.get_pi(root_id, board, turn, tau=0)
 
-        state_arr = utils.get_board(root_id, BOARD_SIZE)
+        # action, action_index = utils.argmax_onehot(pi)
         
         action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
 
@@ -155,7 +131,7 @@ def response_split(str):
 
     action_index = []
 
-    for i in range(0, len(response)+1, 2):
+    for i in range(0, len(r), 2):
         tail = 0
         head = (19-r[i+1]) * 19
         if ord('A') <= ord(r[i]) < ord('I'):
@@ -183,18 +159,26 @@ def main():
     
     evaluator.set_agents(model)
     env = evaluator.return_env()
+    evaluator.player.model.eval()
     root_id = (0,)
     board = utils.get_board(root_id, BOARD_SIZE)
     
     red_stones = connsix.lets_connect(ip, port, our_color)
+    
     red_indexes = []
+
     if len(red_stones):
         print("Received red stones from server: " + red_stones)
         red_indexes = response_split(red_stones)
-    if len(red_indexes):
+
         for red in red_indexes:
+            print('red', red)
+            action = np.zeros(19*19)
             row, col = cordinate(red)
             board[row, col] = 5
+            action[red] = 5
+            root_id += (red,)
+            board, check_valid_pos, win_index, _, _ = env.step(action, 1)
     
     if our_color == "BLACK":
         turn = 0
@@ -203,24 +187,32 @@ def main():
         turn = 1
         enemy_turn = 0
     
+    
     if our_color == "BLACK":
         root_id += (180, )
         row, col = cordinate(180)
         board[row, col] = 1
-        board, check_valid_pos, win_index, turn, _ = env.step(board)
+        action = np.zeros(19*19)
+        action[180] = 1
+        board, check_valid_pos, win_index, turn, _ = env.step(action)
+        
         away_move = connsix.draw_and_read("K10")
         print("Received first away move from server: " + away_move)
         
         init_indexes = response_split(away_move)
         row, col = cordinate(init_indexes[0])
         board[row, col] = -1
+        action = np.zeros(19*19)
+        action[init_indexes[0]] = 1
         root_id += (init_indexes[0],)
-        board, check_valid_pos, win_index, turn, _ = env.step(board)
+        board, check_valid_pos, win_index, turn, _ = env.step(action)
         
         row, col = cordinate(init_indexes[1])
         board[row, col] = -1
+        action = np.zeros(19*19)
+        action[init_indexes[1]] = 1
         root_id += (init_indexes[1],)
-        board, check_valid_pos, win_index, turn, _ = env.step(board)
+        board, check_valid_pos, win_index, turn, _ = env.step(action)
         
         count = 3
     else:
@@ -229,9 +221,11 @@ def main():
         
         init_indexes = response_split(away_move)
         row, col = cordinate(init_indexes[0])
-        board[row, col] = 1
+        board[row, col] = -1
+        action = np.zeros(19*19)
+        action[init_indexes[0]] = 1
         root_id += (init_indexes[0],)
-        board, check_valid_pos, win_index, turn, _ = env.step(board)
+        board, check_valid_pos, win_index, turn, _ = env.step(action)
         
         count = 1
 
@@ -240,48 +234,115 @@ def main():
     away_move = ''
     
     check_enemy_iter = 0
-    
+    turn_iter = 0
+    turn_change = False
+    state_arr = utils.get_board(root_id, BOARD_SIZE)
     while 1:
         #utils.render_str(board, BOARD_SIZE, action_index)
-        
-        if turn != enemy_turn:
-            # player turn
-            action, action_index = evaluator.get_action(root_id,
-                                                    board,
-                                                    enemy_turn,
-                                                    turn,
-                                                    count)
-            count += 1
-            player_list.append(invert(action_index))
-            print("Player list", player_list)
-            if len(player_list) == 2:
-                print("TEST")
-                result_player = '{}:{}'.format(player_list[0], player_list[1])
-                player_list = []
-                away_move = connsix.draw_and_read(result_player)
-                print("awaymove1", away_move)
-            root_id = evaluator.player.root_id + (action_index,)
+        if turn_change == False or turn_iter == 0:
+            if turn_iter == 1:  
+                # player turn
+                print("board1: ", board)
+                state = utils.get_state_pt(root_id, BOARD_SIZE, 5, game.WIN_STONES)
+                # state_input = torch.tensor([state]).to(device).float()
+                # v = our_model.model(state_input)
+                # pi = np.asarray(v)
+                # pi = pi.tolist()
+                # pi = pi[0][0]
+                # print("pi", pi)
+                # action, action_index = utils.argmax_onehot(pi)
+                action, action_index = evaluator.get_action(root_id,
+                                                        board,
+                                                        enemy_turn,
+                                                        turn,
+                                                        count,
+                                                        state_arr)
+
+                action[action_index] = 1
+                board, check_valid_pos, win_index, turn, _ = env.step(action)
+                print("board1b: ", board)
+                
+                count += 1
+                player_list.append(invert(action_index))
+                print("Player list", player_list)
+                if len(player_list) == 2:
+                    print("TEST")
+                    result_player = '{}:{}'.format(player_list[0], player_list[1])
+                    player_list = []
+                    away_move = connsix.draw_and_read(result_player)
+                    print("awaymove1", away_move)
+                root_id += (action_index,)
+                
+                turn_iter = 1
+                turn_change = True
+            else:
+                # player turn
+                print("board2: ", board)
+                state = utils.get_state_pt(root_id, BOARD_SIZE, 5, game.WIN_STONES)
+                # state_input = torch.tensor([state]).to(device).float()
+                # v = our_model.model(state_input)
+                # pi = np.asarray(v)
+                # pi = pi.tolist()
+                # pi = pi[0][0]
+            
+                # print("pi", pi)
+                # action, action_index = utils.argmax_onehot(pi)
+                                                        
+                action, action_index = evaluator.get_action(root_id,
+                                                        board,
+                                                        enemy_turn,
+                                                        turn,
+                                                        count,
+                                                        state_arr)
+                action[action_index] = 1
+                board, check_valid_pos, win_index, turn, _ = env.step(action)
+                print("board2b: ", board)
+                
+                count += 1
+                player_list.append(invert(action_index))
+                print("Player list", player_list)
+                if len(player_list) == 2:
+                    print("TEST")
+                    result_player = '{}:{}'.format(player_list[0], player_list[1])
+                    player_list = []
+                    away_move = connsix.draw_and_read(result_player)
+                    print("awaymove1", away_move)
+                root_id += (action_index,)
+                
+                turn_iter = 1
+                turn_change = False
         else:
             # enemy turn
             if check_enemy_iter % 2 == 1:
+                print("board3: ", board)
                 print("awaymove2",away_move)
                 action_indexes = response_split(away_move)
                 
-                if our_color == "BLACK":
-                    action[action_indexes[0]] = 1
-                    action[action_indexes[1]] = 1
-                else:
-                    action[action_indexes[0]] = -1
-                    action[action_indexes[1]] = -1
-                root_id = root_id + (action_indexes[0],)
-                root_id = root_id + (action_indexes[1],)
-
+                # if our_color == "BLACK":
+                #     action[action_indexes[0]] = 1
+                #     action[action_indexes[1]] = 1
+                # else:
+                action = np.zeros(19*19)
+                action[action_indexes[0]] = 1
+                board, check_valid_pos, win_index, turn, _ = env.step(action)
+                root_id += (action_indexes[0],)
+                
+                action = np.zeros(19*19)
+                action[action_indexes[1]] = 1
+                board, check_valid_pos, win_index, turn, _ = env.step(action)
+                root_id += (action_indexes[1],)
+                print("board3b: ", board)
                 check_enemy_iter = 0
+                turn_change = False
+                turn_iter = 0
             else:
+                print("board4: ", board)
                 check_enemy_iter += 1
-            
-        board, check_valid_pos, win_index, turn, _ = env.step(action)
+                print("board4b: ", board)
 
+        print("turn_change: ", turn_change)
+        print("turn_iter: ", turn_iter)
+        state_arr = utils.get_board(root_id, BOARD_SIZE)
 if __name__ == '__main__':
     print('cuda:', use_cuda)
     np.set_printoptions(suppress=True)

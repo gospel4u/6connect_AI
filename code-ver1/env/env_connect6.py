@@ -102,7 +102,7 @@ class GameState:
                                 int(GRID_SIZE / (GAMEBOARD_SIZE - 1)))
 
     # Game loop
-    def step(self, input_):
+    def step(self, input_, cur_step = 0):
         # Initial settings
         if self.init is True:
             self.num_stones = 0
@@ -184,7 +184,7 @@ class GameState:
             check_valid_pos = True
 
             # If selected spot is already occupied, it is not valid move!
-            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.lock[y_index, x_index] == 1:
+            if self.gameboard[y_index, x_index] == 1 or self.gameboard[y_index, x_index] == -1 or self.gameboard[y_index, x_index] == 5:
                 check_valid_pos = False
 
         # Change the gameboard according to the stone's index
@@ -193,7 +193,11 @@ class GameState:
             # self.state = update_state(self.state, self.turn, x_index, y_index)
 
             # Black stone
-            if self.turn == 0:
+
+            if cur_step == 1:
+                self.gameboard[y_index, x_index] = 5
+            
+            elif self.turn == 0:
                 self.gameboard[y_index, x_index] = 1
                 self.num_stones += 1
 
@@ -202,10 +206,7 @@ class GameState:
                 self.gameboard[y_index, x_index] = -1
                 self.num_stones += 1
 
-            # Red stone
-            else:
-                self.lock[y_index, x_index] = 1
-
+            
             # turn for connect6. Only change the turn when # of stones is odd.
             self.turn = (self.turn + (self.num_stones % 2)) % 2
 

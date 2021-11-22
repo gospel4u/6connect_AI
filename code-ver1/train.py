@@ -179,7 +179,7 @@ def self_play(n_selfplay):
             root_id += (action_index,)
 
             # ====================== print evaluation ====================== #
-
+            #print("root_id:", root_id)
             if PRINT_SELFPLAY:
                 with torch.no_grad():
                     state_input = torch.tensor([state]).to(device).float()
