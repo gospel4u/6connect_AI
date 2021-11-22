@@ -25,13 +25,13 @@ import time
 
 BOARD_SIZE = game.Return_BoardParams()[0]
 
-# N_BLOCKS_PLAYER = 1
+N_BLOCKS_PLAYER = 10
 # N_BLOCKS_ENEMY = 10
 
 IN_PLANES_PLAYER = 5  # history * 2 + 1
 # IN_PLANES_ENEMY = 5
 
-# OUT_PLANES_PLAYER = 128
+OUT_PLANES_PLAYER = 128
 # OUT_PLANES_ENEMY = 128
 
 WIN_STONES = 6
@@ -75,23 +75,28 @@ class Evaluator(object):
                                           N_MCTS_PLAYER,
                                           IN_PLANES_PLAYER,
                                           noise=False)
-        self.player.model = our_model
-        # state_a = self.player.model.state_dict()
-        
-        # for k, v in state_a.items():
-        #     if k in state_a:
-        #         state_a[k] = v
-        # self.player.model.load_state_dict(state_a)
+        self.player.model = model.PVNet(N_BLOCKS_PLAYER,
+                                           IN_PLANES_PLAYER,
+                                           OUT_PLANES_PLAYER,
+                                           BOARD_SIZE).to(device)
+        state = self.player.model.state_dict()
 
+        my_state = torch.load(
+                PATH, map_location='cuda:0' if use_cuda else 'cpu')
+        for k, v in my_state.state_dict().items():
+            if k in state:
+                state[k] = v
+        self.player.model.load_state_dict(state)
+    
     def get_action(self, root_id, board, turn, enemy_turn, count, state_arr):
         if isinstance(self.player, agents.ZeroAgent):
             pi = self.player.get_pi(root_id, tau=0)
         else:
             pi = self.player.get_pi(root_id, board, turn, tau=0)
 
-        # action, action_index = utils.argmax_onehot(pi)
+        action, action_index = utils.argmax_onehot(pi)
         
-        action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
+        # action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
 
         return action, action_index
 
@@ -251,6 +256,7 @@ def main():
                 # pi = pi[0][0]
                 # print("pi", pi)
                 # action, action_index = utils.argmax_onehot(pi)
+                p, v = evaluator.player.get_pv(root_id)
                 action, action_index = evaluator.get_action(root_id,
                                                         board,
                                                         enemy_turn,
@@ -275,6 +281,7 @@ def main():
                 
                 turn_iter = 1
                 turn_change = True
+                evaluator.player.del_parents(root_id)
             else:
                 # player turn
                 print("board2: ", board)
@@ -311,6 +318,7 @@ def main():
                 
                 turn_iter = 1
                 turn_change = False
+                evaluator.player.del_parents(root_id)
         else:
             # enemy turn
             if check_enemy_iter % 2 == 1:
