@@ -37,7 +37,7 @@ OUT_PLANES_PLAYER = 128
 WIN_STONES = 6
 N_MCTS_PLAYER = 100
 # N_MCTS_ENEMY = 10
-# N_MCTS_MONITOR = 10
+N_MCTS_MONITOR = 50
 
 use_cuda = torch.cuda.is_available()
 device = torch.device('cuda' if use_cuda else 'cpu')
@@ -51,7 +51,9 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # with open('./211109_1800_1495832_step_model.pickle', 'rb') as f:
 #     our_model = pickle.load(f)
 
-PATH = "./data/211117_1200_1027711_step_dataset/211117_1200_1027711_step_model.pth"
+PATH = "./data/211117_1200_1027711_step_model.pth"
+MONITOR_PATH = "./data/211117_1200_1027711_step_model.pth"
+
 # 불러오기
 our_model = torch.load(PATH, map_location=device)
 
@@ -65,9 +67,10 @@ player_model_path = 'human'
 class Evaluator(object):
     def __init__(self):
         self.player = None
+        self.monitor = None
         pass
 
-    def set_agents(self, model_path_a):
+    def set_agents(self, model_path_a, model_path_b):
         self.env = game.GameState('text')
 
         self.player = agents.ZeroAgent(BOARD_SIZE,
@@ -79,14 +82,38 @@ class Evaluator(object):
                                            IN_PLANES_PLAYER,
                                            OUT_PLANES_PLAYER,
                                            BOARD_SIZE).to(device)
+        
         state = self.player.model.state_dict()
 
         my_state = torch.load(
-                PATH, map_location='cuda:0' if use_cuda else 'cpu')
+                model_path_a, map_location='cuda:0' if use_cuda else 'cpu')
         for k, v in my_state.state_dict().items():
             if k in state:
                 state[k] = v
         self.player.model.load_state_dict(state)
+
+        self.monitor = agents.ZeroAgent(BOARD_SIZE,
+                                        game.WIN_STONES, 
+                                        N_MCTS_MONITOR, 
+                                        IN_PLANES_PLAYER, 
+                                        noise = False)
+        
+        self.monitor.model = model.PVNet(N_BLOCKS_PLAYER,
+                                        IN_PLANES_PLAYER,
+                                        OUT_PLANES_PLAYER,
+                                        BOARD_SIZE).to(device)
+
+        state_m = self.monitor.model.state_dict()
+
+        my_state_m = torch.load(
+                model_path_b, map_location='cuda:0' if use_cuda else 'cpu')
+        for k, v in my_state_m.state_dict().items():
+            if k in state_m:
+                state_m[k] = v
+        self.monitor.model.load_state_dict(state_m)
+
+        #self.player.model.eval()
+        #self.monitor.model.eval()
     
     def get_action(self, root_id, board, turn, enemy_turn, count, state_arr):
         if isinstance(self.player, agents.ZeroAgent):
@@ -106,8 +133,6 @@ class Evaluator(object):
     def reset(self):
         self.player.reset()
 
-
-evaluator = Evaluator()
 
 def invert(action_index, board_size=19):
     str = ''
@@ -150,7 +175,9 @@ def cordinate(index):
     row = index // BOARD_SIZE
     col = index % BOARD_SIZE
     return row, col
-        
+
+evaluator = Evaluator()
+
 def main():
     ip = input("input ip: ")
     
@@ -162,9 +189,10 @@ def main():
     lock = np.zeros([BOARD_SIZE, BOARD_SIZE])
     count = 0
     
-    evaluator.set_agents(model)
+    evaluator.set_agents(PATH, MONITOR_PATH)
+    player_agent_info.agent = evaluator.player
     env = evaluator.return_env()
-    evaluator.player.model.eval()
+    #evaluator.player.model.eval()
     root_id = (0,)
     board = utils.get_board(root_id, BOARD_SIZE)
     
@@ -319,6 +347,9 @@ def main():
                 turn_iter = 1
                 turn_change = False
                 evaluator.player.del_parents(root_id)
+
+            move = np.count_nonzero(board)
+
         else:
             # enemy turn
             if check_enemy_iter % 2 == 1:
@@ -343,11 +374,15 @@ def main():
                 check_enemy_iter = 0
                 turn_change = False
                 turn_iter = 0
+
+                
             else:
                 print("board4: ", board)
                 check_enemy_iter += 1
                 print("board4b: ", board)
 
+            player_agent_info.add_value(move, v)
+            
         print("turn_change: ", turn_change)
         print("turn_iter: ", turn_iter)
         state_arr = utils.get_board(root_id, BOARD_SIZE)
