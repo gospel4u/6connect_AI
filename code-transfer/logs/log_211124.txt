@@ -1,0 +1,202 @@
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_dataset.pickle
+WARNING:root:2021-11-24T18:37:48.901185
+WARNING:root:==========================================================
+WARNING:root:                      1901 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_dataset.pickle
+WARNING:root:2021-11-24T18:39:15.823538
+WARNING:root:==========================================================
+WARNING:root:                      1901 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_dataset.pickle
+WARNING:root:2021-11-24T18:48:44.257742
+WARNING:root:==========================================================
+WARNING:root:                      1901 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_dataset.pickle
+WARNING:root:2021-11-24T18:56:23.138891
+WARNING:root:==========================================================
+WARNING:root:                      1901 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver2/data/211123_1900_1590511_step_dataset.pickle
+WARNING:root:2021-11-24T19:29:43.919943
+WARNING:root:==========================================================
+WARNING:root:                      1901 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_dataset.pickle
+WARNING:root:2021-11-24T19:39:48.581566
+WARNING:root:==========================================================
+WARNING:root:                      1201 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_dataset.pickle
+WARNING:root:2021-11-24T19:41:17.027715
+WARNING:root:==========================================================
+WARNING:root:                      1201 Iteration                      
+WARNING:root:==========================================================
+WARNING:root:
+CUDA: True
+AGENT: ZeroAgent
+MODEL: PVNet
+SEED: 0
+BOARD_SIZE: 19
+N_MCTS: 200
+TAU_THRES: 6
+N_BLOCKS: 10
+IN_PLANES: 5
+OUT_PLANES: 128
+N_SELFPLAY: 10
+MEMORY_SIZE: 30000
+N_EPOCHS: 1
+BATCH_SIZE: 32
+LR: 0.0001
+L2: 0.0001
+WARNING:root:load model: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_model.pth
+WARNING:root:load dataset: /home/june/2021-2/SW-Festival/six-ver1/data/211117_1200_1027711_step_dataset.pickle
+WARNING:root:2021-11-24T19:43:10.595568
+WARNING:root:==========================================================
+WARNING:root:                      1201 Iteration                      
+WARNING:root:==========================================================
