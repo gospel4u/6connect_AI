@@ -51,8 +51,8 @@ device = torch.device('cuda' if use_cuda else 'cpu')
 # with open('./211109_1800_1495832_step_model.pickle', 'rb') as f:
 #     our_model = pickle.load(f)
 
-PATH = "./data/211117_1200_1027711_step_model.pth"
-MONITOR_PATH = "./data/211117_1200_1027711_step_model.pth"
+PATH = "./data/dataset/211123_1900_1590511_step_model.pth"
+MONITOR_PATH = "./data/dataset/211123_1900_1590511_step_model.pth"
 
 # 불러오기
 our_model = torch.load(PATH, map_location=device)
@@ -87,7 +87,7 @@ class Evaluator(object):
 
         my_state = torch.load(
                 model_path_a, map_location='cuda:0' if use_cuda else 'cpu')
-        for k, v in my_state.state_dict().items():
+        for k, v in my_state.model.state_dict().items():
             if k in state:
                 state[k] = v
         self.player.model.load_state_dict(state)
@@ -107,7 +107,7 @@ class Evaluator(object):
 
         my_state_m = torch.load(
                 model_path_b, map_location='cuda:0' if use_cuda else 'cpu')
-        for k, v in my_state_m.state_dict().items():
+        for k, v in my_state_m.model.state_dict().items():
             if k in state_m:
                 state_m[k] = v
         self.monitor.model.load_state_dict(state_m)
@@ -121,9 +121,9 @@ class Evaluator(object):
         else:
             pi = self.player.get_pi(root_id, board, turn, tau=0)
 
-        action, action_index = utils.argmax_onehot(pi)
+        #action, action_index = utils.argmax_onehot(pi)
         
-        # action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
+        action, action_index = utils.get_action(pi, 0, count=count, state=state_arr, board_size = BOARD_SIZE)
 
         return action, action_index
 
